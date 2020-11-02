@@ -39,6 +39,13 @@ def do_magic():
                               desired_capabilities=DesiredCapabilities.CHROME)
     try:
         driver.set_window_size(1440, 900)
+
+        # let's open index-page at first, to get all the required cookies
+        driver.get('https://www.boots.com/')
+        WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, '//h3[text()="about Boots"]'))
+        )
+
         driver.get('https://www.boots.com/webapp/wcs/stores/servlet/BootsLogonForm')
         login_input = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, '//form[@id="gigya-login-form"]//input[@name="username"]'))
